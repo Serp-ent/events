@@ -15,12 +15,22 @@
 </head>
 
 <body>
+  <a href="{% url 'events:create_event' %}">
+    Create
+  </a>
   {% if events_list %}
     <ul>
       {% for event in events_list %}
       <li>
         <a href="{% url 'events:detailed_event' event.id %}">
         {{event.name}}
+        </a>
+
+        <a href="{% url 'events:edit_event' event.id %}">
+        Edit
+        </a>
+        <a href="{% url 'events:remove_event' event.id %}">
+        Delete
         </a>
       </li>
     {% endfor %}

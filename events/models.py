@@ -1,4 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+
+# TODO: add roles organizer and participant
+# TODO: add login/register and logout functionality
 
 
 # Create your models here.
