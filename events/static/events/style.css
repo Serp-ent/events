@@ -8,14 +8,32 @@ html {
   height: 100vh;
 }
 
+ul,
+li {
+  list-style-type: none;
+  padding: 0;
+}
+
 body {
   height: 100%;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+  padding: 12px;
+  background-color: rgb(255, 255, 201);
 }
 
 header {
   background-color: gray;
+  padding: 4px 8px;
+}
+
+header h1 {
+  font-size: 1.6rem;
+  font-weight: bold;
 }
 
 footer {
