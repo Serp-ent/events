@@ -1,0 +1,17 @@
+{% extends 'events/layout.html' %}
+
+{% comment %} TODO: add filters that allow for searching of events {% endcomment %}
+{% comment %} TODO: add limits of people to events {% endcomment %}
+{% comment %} TODO: fix immediately error shown in register {% endcomment %}
+
+{% block title %}
+  Register
+{%endblock%}
+
+{% block content %}
+<form action="{%url 'register'%}" method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type='submit'>Register</button>
+</form>
+{% endblock %}
