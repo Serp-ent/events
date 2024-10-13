@@ -1,43 +1,25 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
+{% extends 'events/layout.html' %}
 
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title></title>
-  <meta name="description" content="" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="" />
-</head>
 
-<body>
-  <a href="{% url 'events:create_event' %}">
-    Create
-  </a>
+{% block title %}
+Event List
+{%endblock%}
+
+{% block content %}
+  <a href="{% url 'events:create_event' %}">Create</a>
+
   {% if events_list %}
     <ul>
       {% for event in events_list %}
       <li>
-        <a href="{% url 'events:detailed_event' event.id %}">
-        {{event.name}}
-        </a>
+        <a href="{% url 'events:detailed_event' event.id %}">{{ event.name }}</a>
 
-        <a href="{% url 'events:edit_event' event.id %}">
-        Edit
-        </a>
-        <a href="{% url 'events:remove_event' event.id %}">
-        Delete
-        </a>
+        <a href="{% url 'events:edit_event' event.id %}">Edit</a>
+        <a href="{% url 'events:remove_event' event.id %}">Delete</a>
       </li>
-    {% endfor %}
+      {% endfor %}
     </ul>
   {% else %}
-    <h1>No events are available<h1>
-    {% endif %}
-</body>
-
-</html>
+    <h1>No events are available</h1>
+  {% endif %}
+{% endblock %}
