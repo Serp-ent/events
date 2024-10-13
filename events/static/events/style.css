@@ -1,0 +1,28 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100vh;
+}
+
+body {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+header {
+  background-color: gray;
+}
+
+footer {
+  background-color: gray;
+}
+
+header h1 {
+  padding: 0;
+  margin: 0;
+}
