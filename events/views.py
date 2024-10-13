@@ -1,22 +1,22 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.urls import reverse
+from .forms import EventForm
 
-from django.views.generic import ListView
+from django.views import generic
 
 from .models import Event
 
 
-class EventListView(ListView):
-    template_name = 'events/index.html'
+class EventListView(generic.ListView):
+    template_name = "events/index.html"
     model = Event
     context_object_name = "events_list"
 
 
-def event_detail(request, event_id):
-    event = get_object_or_404(Event, id=event_id)
-
-    return render(request, "events/event.html", {"event": event})
+class EventDetailView(generic.DetailView):
+    model = Event
+    template_name = "events/event.html"
 
 
 def join_event(request, event_id):
@@ -25,7 +25,18 @@ def join_event(request, event_id):
 
 
 def create_event(request: HttpRequest):
-    return HttpResponse("TODO: show form for event creation")
+    if request.method == "POST":
+        print("Received POST request create_event")
+        form = EventForm(request.POST)  # this is called binding data to the form
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/events")
+    else:
+        form = EventForm()
+
+    context = {"form": form}
+
+    return render(request, "events/create_event.html", context)
 
 
 def remove_event(request: HttpRequest, event_id):
