@@ -2,14 +2,15 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.urls import reverse
 
+from django.views.generic import ListView
+
 from .models import Event
 
 
-# Create your views here.
-def index(request):
-    events = Event.objects.all()
-
-    return render(request, "events/index.html", {"events_list": events})
+class EventListView(ListView):
+    template_name = 'events/index.html'
+    model = Event
+    context_object_name = "events_list"
 
 
 def event_detail(request, event_id):

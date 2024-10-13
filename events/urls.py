@@ -42,7 +42,7 @@ app_name = "events"
 #         Cancel registration for any event before the event starts.
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", views.EventListView.as_view(), name="index"),
     path("<int:event_id>/", views.event_detail, name="detailed_event"),
     path("<int:event_id>/join", views.join_event, name="join_event"),
     path("create/", views.create_event, name="create_event"),
