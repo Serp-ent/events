@@ -52,11 +52,10 @@ def edit_event(request: HttpRequest, event_id: str):
         form = EventForm(request.POST, instance=e)
         if form.is_valid():
             form.save()
-            # TODO: fix editing creates new instance
             # TODO: this should redirect to that event using reverse
             return HttpResponseRedirect("/events")
     else:
         form = EventForm(instance=e)
 
-    context = {"form": form}
-    return render(request, "events/create_event.html", context)
+    context = {"form": form, "event": e}
+    return render(request, "events/edit_event.html", context)

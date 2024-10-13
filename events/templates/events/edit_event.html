@@ -1,0 +1,14 @@
+{% extends 'events/layout.html' %} 
+
+{% block title %}
+ Create new event
+{%endblock%}
+
+{% block content %}
+  <form action="{% url 'events:edit_event' event.id %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button>Edit</button>
+  </form>
+{% endblock %}
+
