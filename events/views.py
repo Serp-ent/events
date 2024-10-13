@@ -26,7 +26,6 @@ def join_event(request, event_id):
 
 def create_event(request: HttpRequest):
     if request.method == "POST":
-        print("Received POST request create_event")
         form = EventForm(request.POST)  # this is called binding data to the form
         if form.is_valid():
             form.save()
@@ -39,9 +38,25 @@ def create_event(request: HttpRequest):
     return render(request, "events/create_event.html", context)
 
 
-def remove_event(request: HttpRequest, event_id):
-    return HttpResponse(f"TODO: remove item with id {event_id}")
+def remove_event(request: HttpRequest, event_id: str) -> HttpResponse:
+    e = get_object_or_404(Event, pk=event_id)
+    e.delete()
+
+    return HttpResponseRedirect(reverse("events:index"))
 
 
-def edit_event(request: HttpRequest, event_id):
-    return HttpResponse(f"TODO: edit item with id {event_id}")
+def edit_event(request: HttpRequest, event_id: str):
+    e = get_object_or_404(Event, pk=event_id)
+
+    if request.method == "POST":
+        form = EventForm(request.POST, instance=e)
+        if form.is_valid():
+            form.save()
+            # TODO: fix editing creates new instance
+            # TODO: this should redirect to that event using reverse
+            return HttpResponseRedirect("/events")
+    else:
+        form = EventForm(instance=e)
+
+    context = {"form": form}
+    return render(request, "events/create_event.html", context)
