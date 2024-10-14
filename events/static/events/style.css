@@ -61,10 +61,20 @@ footer {
   font-weight: bold;
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .eventLink img {
-  border: 1px solid black;
+  border: 2px solid rgba(56, 56, 56, 0.485);
+  border-radius: 0.25rem;
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
+}
+
+.eventLink .imageWrapper {
+  height: 4rem;
+  aspect-ratio: 1/1;
 }
 
 .eventLink h2 {

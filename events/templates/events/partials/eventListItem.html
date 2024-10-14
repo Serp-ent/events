@@ -3,7 +3,9 @@
     <a class="eventLink" href="{% url 'events:detailed_event' event.id %}">
       <div>
         {% if event.photo %}
+        <div class='imageWrapper'>
           <img src="{{ event.photo.url }}" />
+        </div>
         {% else %}
           <div>Image</div>
         {% endif %}
