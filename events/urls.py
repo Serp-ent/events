@@ -1,9 +1,11 @@
 from . import views
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 
 app_name = "events"
 
-# TODO: 
+# TODO:
 # Organizers can create events with details such as:
 
 #     Event name
@@ -49,3 +51,6 @@ urlpatterns = [
     path("<int:event_id>/remove", views.remove_event, name="remove_event"),
     path("<int:event_id>/edit", views.edit_event, name="edit_event"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

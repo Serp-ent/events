@@ -26,10 +26,12 @@ def join_event(request, event_id):
 
 def create_event(request: HttpRequest):
     if request.method == "POST":
-        form = EventForm(request.POST)  # this is called binding data to the form
+        form = EventForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect("/events")
+        else:
+            print(form.errors)
     else:
         form = EventForm()
 

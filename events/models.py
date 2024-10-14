@@ -18,6 +18,7 @@ class Event(models.Model):
     description = models.TextField()
     startAt = models.DateTimeField()
     # TODO: endsAt = models.DateTimeField()
+    photo = models.ImageField(upload_to="event_photos/", null=True)
 
     def __str__(self) -> str:
         return self.name

@@ -5,7 +5,11 @@
 {%endblock%}
 
 {% block content %}
-  <form action="{% url 'events:create_event' %}" method="post">
+  <form 
+    action="{% url 'events:create_event' %}" 
+    enctype="multipart/form-data"
+    method="post"
+  >
     {% csrf_token %}
     {{ form }}
     <button>Create</button>

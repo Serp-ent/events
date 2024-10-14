@@ -1,7 +1,15 @@
 <div class="eventListItem">
   <div>
-    <a class="eventName" href="{% url 'events:detailed_event' event.id %}">
-      {{ event.name }}
+    <a class="eventLink" href="{% url 'events:detailed_event' event.id %}">
+      <div>
+        {% if event.photo %}
+          <img src="{{ event.photo.url }}" />
+        {% else %}
+          <div>Image</div>
+        {% endif %}
+      </div>
+
+      <h2>{{ event.name }}</h2>
     </a>
   </div>
 

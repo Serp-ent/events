@@ -57,8 +57,18 @@ footer {
   justify-content: space-between;
 }
 
-.eventListItem .eventName {
+.eventLink {
   font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.eventLink img {
+  border: 1px solid black;
+}
+
+.eventLink h2 {
+  font-size: 1rem;
 }
 
 /* TODO: add hover state etc... */
