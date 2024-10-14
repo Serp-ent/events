@@ -1,3 +1,18 @@
-<header class="header">
+<header>
   <h1>Event</h1>
+
+  <section>
+    {% if user.is_authenticated %}
+    <div>
+      Logged in as {{user.username}}
+      <form action="{% url 'logout' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
+    </div>
+    {% else %}
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+  </section>
 </header>
