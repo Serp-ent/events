@@ -1,22 +1,23 @@
 <header>
   <h1>
-    <a href={% url 'events:index' %}>
-    Event
-    </a>
+    <a href="{% url 'events:index' %}">Event</a>
   </h1>
 
-  <section>
+  <section class="user-section">
     {% if user.is_authenticated %}
-    <div>
-      Logged in as {{user.username}}
-      <form action="{% url 'logout' %}" method="POST">
+    <div class="user-info">
+      Logged in as <strong>{{ user.username }}</strong>
+
+      <form action="{% url 'logout' %}" method="POST" class="logout-form">
         {% csrf_token %}
-        <button type="submit">Logout</button>
+        <button type="submit" class="logout-button">Logout</button>
       </form>
     </div>
     {% else %}
-    <a href="{% url 'login' %}">Login</a>
-    <a href="{% url 'register' %}">Register</a>
+    <div class="auth-links">
+      <a href="{% url 'login' %}" class="login-button">Login</a>
+      <a href="{% url 'register' %}" class="register-button">Register</a>
+    </div>
     {% endif %}
   </section>
 </header>
