@@ -5,34 +5,58 @@
 {% endblock %}
 
 {% block content %}
-  <h1>{{ event.name }}</h1>
-  <p>{{ event.description }}</p>
+  <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
+    <!-- Event Title -->
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ event.name }}</h1>
 
-  {% comment %} TODO:
-  {% if event.photo %}
-    <div class="imageWrapper">
-      <img src="{{ event.photo.url }}" alt="Event Cover Image">
-    </div>
-  {% endif %} {% endcomment %}
-
-  <p>Organized by: <a href="{% url 'profiles:profile_detail' event.author.id %}">{{ event.author.username }}</a></p>
-  {% if event.participant_limit > 0 %}
-    <p>Participants: {{ event.registrations.count }} / {{ event.participant_limit }}</p>
-  {% endif %}
-
-  {% if user.is_authenticated %}
-    {% if is_registered %}
-      <form action="{% url 'events:leave_event' event.id %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Leave Event" class="leave-button"/>
-      </form>
-    {% else %}
-      <form action="{% url 'events:join_event' event.id %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Join Event" class="join-button"/>
-      </form>
+    <!-- Event Image -->
+    {% if event.photo %}
+      <div class="imageWrapper mb-4">
+        <img src="{{ event.photo.url }}" alt="Event Cover Image" class="w-full h-64 object-cover rounded-lg shadow-sm">
+      </div>
     {% endif %}
-  {% else %}
-    <p><a href="{% url 'login' %}">Log in</a> to join this event.</p>
-  {% endif %}
+
+    <!-- Event Description -->
+    <p class="text-gray-600 leading-relaxed mb-4">{{ event.description }}</p>
+
+    <!-- Organizer and Participant Limit -->
+    <p class="text-sm text-gray-700 mb-4">
+      Organized by: 
+      <a href="{% url 'profiles:profile_detail' event.author.id %}" class="text-blue-500 hover:underline">{{ event.author.username }}</a>
+    </p>
+    {% if event.participant_limit > 0 %}
+      <p class="text-sm text-gray-700 mb-4">
+        Participants: {{ event.registrations.count }} / {{ event.participant_limit }}
+      </p>
+    {% endif %}
+
+    <!-- Join or Leave Button -->
+    <div class="mt-6">
+      {% if user.is_authenticated %}
+        {% if is_registered %}
+          <form action="{% url 'events:leave_event' event.id %}" method="post" class="inline-block">
+            {% csrf_token %}
+            <input 
+              type="submit" 
+              value="Leave Event" 
+              class="leave-button px-4 py-2 bg-red-500 text-white rounded-md shadow hover:bg-red-600 transition duration-200 cursor-pointer"
+            />
+          </form>
+        {% else %}
+          <form action="{% url 'events:join_event' event.id %}" method="post" class="inline-block">
+            {% csrf_token %}
+            <input 
+              type="submit" 
+              value="Join Event" 
+              class="join-button px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition duration-200 cursor-pointer"
+            />
+          </form>
+        {% endif %}
+      {% else %}
+        <p class="text-sm text-gray-500">
+          <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Log in</a> to join this event.
+        </p>
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}

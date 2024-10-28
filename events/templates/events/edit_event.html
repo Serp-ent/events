@@ -1,14 +1,30 @@
 {% extends 'events/layout.html' %} 
 
 {% block title %}
- Create new event
-{%endblock%}
-
-{% block content %}
-  <form action="{% url 'events:edit_event' event.id %}" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <button>Edit</button>
-  </form>
+ Edit Event
 {% endblock %}
 
+{% block content %}
+  <div class="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
+    <h1 class="text-2xl font-bold mb-4 text-gray-800">Edit Event</h1>
+    
+    <form 
+      action="{% url 'events:edit_event' event.id %}" 
+      method="post"
+      class="space-y-4"
+    >
+      {% csrf_token %}
+      
+      <div class="space-y-2">
+        {{ form.as_p }}
+      </div>
+      
+      <button 
+        type="submit" 
+        class="w-full bg-green-500 text-white font-semibold py-2 px-4 rounded hover:bg-green-600 transition duration-200"
+      >
+        Save Changes
+      </button>
+    </form>
+  </div>
+{% endblock %}

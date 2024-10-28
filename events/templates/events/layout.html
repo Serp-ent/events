@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>{% block title %}Event Management{% endblock %}</title>
-    <meta name="description" content="" />
+    <meta name="description" content="Manage and join exciting events in your community." />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    
     {% load static %}
     <link rel="stylesheet" href="{% static 'events/styles.css' %}" />
+
+    <link rel="icon" href="{% static 'events/favicon.ico' %}" type="image/x-icon" />
   </head>
 
-  <body>
+  <body class="bg-gray-50 text-gray-800 leading-relaxed font-sans">
     {% include "events/partials/header.html" %}
 
-    <main>{% block content %} {% endblock %}</main>
+    <main class="container mx-auto p-4 md:p-6 lg:p-8">
+      {% block content %} {% endblock %}
+    </main>
 
     {% include "events/partials/footer.html" %}
   </body>

@@ -1,28 +1,37 @@
 {% extends 'events/layout.html' %}
 
 {% block title %}
-Login
+  Login
 {% endblock %}
 
 {% block content %}
-<form method="post" action="{% url 'login' %}">
-  {% csrf_token %}
-  <table>
-  <tr>
-      <td>{{ form.username.label_tag }}</td>
-      <td>{{ form.username }}</td>
-  </tr>
-  <tr>
-      <td>{{ form.password.label_tag }}</td>
-      <td>{{ form.password }}</td>
-  </tr>
-  </table>
-  
-  <input type="submit" value="login">
-  <input type="hidden" name="next" value="{{ next }}">
+<div class="max-w-md mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
+  <h2 class="text-2xl font-bold text-gray-800 mb-4">Login</h2>
+
+  <form method="post" action="{% url 'login' %}" class="space-y-4">
+    {% csrf_token %}
+
+    <div class="space-y-2">
+      <label class="block font-medium text-gray-700" for="username">{{ form.username.label }}</label>
+      {{ form.username }}
+    </div>
+    
+    <div class="space-y-2">
+      <label class="block font-medium text-gray-700" for="password">{{ form.password.label }}</label>
+      {{ form.password }}
+    </div>
+
+    <input 
+      type="submit" 
+      value="Login" 
+      class="w-full px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition duration-200"
+    />
+    
+    <input type="hidden" name="next" value="{{ next }}">
   </form>
-  
-  {# Assumes you set up the password_reset view in your URLconf #}
-  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-  
+
+  <p class="text-sm text-gray-500 mt-4">
+    <a href="{% url 'password_reset' %}" class="text-blue-500 hover:underline">Lost password?</a>
+  </p>
+</div>
 {% endblock %}
