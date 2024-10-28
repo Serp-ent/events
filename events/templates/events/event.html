@@ -1,15 +1,38 @@
 {% extends 'events/layout.html' %} 
 
 {% block title %}
- {{event.name}} event
-{%endblock%}
+  {{ event.name }} Event
+{% endblock %}
 
 {% block content %}
-  <h1>{{event.name}}</h1>
-  <p>{{event.description}}</p>
+  <h1>{{ event.name }}</h1>
+  <p>{{ event.description }}</p>
 
-  <form action="{% url 'events:join_event' event.id %}" method="post">
-    {% csrf_token %}
-    <input type="submit" value="join" />
-  </form>
+  {% comment %} TODO:
+  {% if event.photo %}
+    <div class="imageWrapper">
+      <img src="{{ event.photo.url }}" alt="Event Cover Image">
+    </div>
+  {% endif %} {% endcomment %}
+
+  <p>Organized by: <a href="{% url 'profiles:profile_detail' event.author.id %}">{{ event.author.username }}</a></p>
+  {% if event.participant_limit > 0 %}
+    <p>Participants: {{ event.registrations.count }} / {{ event.participant_limit }}</p>
+  {% endif %}
+
+  {% if user.is_authenticated %}
+    {% if is_registered %}
+      <form action="{% url 'events:leave_event' event.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Leave Event" class="leave-button"/>
+      </form>
+    {% else %}
+      <form action="{% url 'events:join_event' event.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Join Event" class="join-button"/>
+      </form>
+    {% endif %}
+  {% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to join this event.</p>
+  {% endif %}
 {% endblock %}

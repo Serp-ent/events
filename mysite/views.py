@@ -20,6 +20,7 @@ def register(request: HttpRequest) -> HttpResponse:
     context = {"form": form}
 
     # TODO: move to mysite register template
+    # TODO: add tailwind
     return render(request, "events/register.html", context)
 
 

@@ -22,5 +22,24 @@
   <div class="eventItemActions">
     <a href="{% url 'events:edit_event' event.id %}">Edit</a>
     <a href="{% url 'events:remove_event' event.id %}">Delete</a>
+
+    {% comment %} TODO: Count how many participants are in here {% endcomment %}
+    {% if event.participant_limit != 0 %}
+    <p>{{ event.registrations.count }}/ {{ event.participant_limit }}</p>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+      {% if event.is_registered %}
+        <form action="{% url 'events:leave_event' event.id %}" method="POST">
+          {% csrf_token %}
+          <button type="submit">Leave</button>
+        </form>
+      {% else %}
+        <form action="{% url 'events:join_event' event.id %}" method="POST">
+          {% csrf_token %}
+          <button type="submit">Join</button>
+        </form>
+      {% endif %}
+    {% endif %}
   </div>
 </div>
