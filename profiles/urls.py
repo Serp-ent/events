@@ -5,7 +5,10 @@ from . import views
 
 # TODO: how to keep layout across all apps
 
+app_name = "profiles"
+
 urlpatterns = [
-  path('<int:user_id>/', views.profile_detail),
-  path('edit/', views.profile_edit),
+    # TODO: user own profile detail
+    path("<int:user_id>/", views.profile_detail, name="profile_detail"),
+    path("edit/", views.profile_edit),
 ]

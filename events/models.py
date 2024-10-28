@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
 
 # TODO: add roles organizer and participant
@@ -19,6 +19,8 @@ class Event(models.Model):
     startAt = models.DateTimeField()
     # TODO: endsAt = models.DateTimeField()
     photo = models.ImageField(upload_to="event_photos/", null=True)
+
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="events")
 
     def __str__(self) -> str:
         return self.name
