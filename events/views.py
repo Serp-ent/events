@@ -78,7 +78,10 @@ def create_event(request: HttpRequest):
     if request.method == "POST":
         form = EventForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            event: Event = form.save(commit=False)
+            event.author = request.user
+            event.save()
+
             return HttpResponseRedirect("/events")
         else:
             print(form.errors)

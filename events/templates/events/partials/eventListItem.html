@@ -1,42 +1,51 @@
-<div class="eventListItem p-4 bg-white shadow-md rounded-lg flex justify-between items-start mb-4">
+<div class="p-4 bg-white shadow-md rounded-lg flex justify-between mb-4">
   <div class="flex-1">
-    <a class="eventLink hover:underline" href="{% url 'events:detailed_event' event.id %}">
+    <a class="eventLink hover:underline"
+       href="{% url 'events:detailed_event' event.id %}">
       <div class="imageWrapper mb-2">
         {% if event.photo %}
-          <img src="{{ event.photo.url }}" alt="{{ event.name }}" class="w-full h-48 object-cover rounded-md" />
+          <img src="{{ event.photo.url }}"
+               alt="{{ event.name }}"
+               class="w-full h-48 object-cover rounded-md" />
         {% else %}
           <div class="h-48 bg-gray-200 flex items-center justify-center rounded-md">No Image</div>
         {% endif %}
       </div>
       <h2 class="text-lg font-semibold text-gray-800">{{ event.name }}</h2>
     </a>
-
-    <a href="{% url 'profiles:profile_detail' event.author.id %}" class="text-sm text-blue-500 hover:underline">
-      {{ event.author.username }}
-    </a>
+    <a href="{% url 'profiles:profile_detail' event.author.id %}"
+       class="text-sm text-blue-500 hover:underline">{{ event.author.username }}</a>
   </div>
-
-  <div class="eventItemActions flex flex-col items-end ml-4">
-    <div class="flex space-x-2 mb-2">
-      <a href="{% url 'events:edit_event' event.id %}" class="text-blue-600 hover:underline">Edit</a>
-      <a href="{% url 'events:remove_event' event.id %}" class="text-red-600 hover:underline">Delete</a>
-    </div>
-
-    {% comment %} TODO: Count how many participants are in here {% endcomment %}
+  <div class="flex flex-col items-end ml-4 justify-between">
+    {% if user.is_authenticated and user == event.author %}
+      <div class="flex flex-col  items-center space-x-2 mb-2">
+        <a href="{% url 'events:edit_event' event.id %}"
+           class="text-blue-600 hover:underline">Edit</a>
+        <a href="{% url 'events:remove_event' event.id %}"
+           class="text-red-600 hover:underline">Delete</a>
+      </div>
+    {% else %}
+      <div></div>
+    {% endif %}
     {% if event.participant_limit != 0 %}
       <p class="text-sm text-gray-600">{{ event.registrations.count }} / {{ event.participant_limit }}</p>
     {% endif %}
-
     {% if user.is_authenticated %}
       {% if event.is_registered %}
         <form action="{% url 'events:leave_event' event.id %}" method="POST">
           {% csrf_token %}
-          <button type="submit" class="mt-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition-colors">Leave</button>
+          <button type="submit"
+                  class="mt-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition-colors">
+            Leave
+          </button>
         </form>
       {% else %}
         <form action="{% url 'events:join_event' event.id %}" method="POST">
           {% csrf_token %}
-          <button type="submit" class="mt-2 bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition-colors">Join</button>
+          <button type="submit"
+                  class="mt-2 bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition-colors">
+            Join
+          </button>
         </form>
       {% endif %}
     {% endif %}
