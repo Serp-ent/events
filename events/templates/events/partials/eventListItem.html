@@ -1,5 +1,5 @@
 <div class="p-4 bg-white shadow-md rounded-lg flex justify-between mb-4">
-  <div class="flex-1">
+  <div class="flex-1 flex flex-col">
     <a class="eventLink hover:underline"
        href="{% url 'events:detailed_event' event.id %}">
       <div class="imageWrapper mb-2">
@@ -13,8 +13,11 @@
       </div>
       <h2 class="text-lg font-semibold text-gray-800">{{ event.name }}</h2>
     </a>
-    <a href="{% url 'profiles:profile_detail' event.author.id %}"
-       class="text-sm text-blue-500 hover:underline">{{ event.author.username }}</a>
+    <p class="flex justify-start items-center gap-1">
+      <span>Organized by</span>
+      <a href="{% url 'profiles:profile_detail' event.author.id %}"
+         class="text-blue-500 hover:underline grow">{{ event.author.username }}</a>
+    </p>
   </div>
   <div class="flex flex-col items-end ml-4 justify-between">
     {% if user.is_authenticated and user == event.author %}
