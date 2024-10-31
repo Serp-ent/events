@@ -1,0 +1,26 @@
+{% extends 'events/layout.html' %}
+
+{% block title %}
+  Edit Profile
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
+    <h1 class="text-2xl font-bold mb-4 text-gray-800">Edit Profile</h1>
+    
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      
+      <div class="space-y-2">
+        {{ form.as_p }}
+      </div>
+      
+      <button 
+        type="submit" 
+        class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+      >
+        Save Changes
+      </button>
+    </form>
+  </div>
+{% endblock %}
