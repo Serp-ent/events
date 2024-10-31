@@ -1,0 +1,20 @@
+{% extends 'events/layout.html' %} 
+
+{% block title %}
+{{event.name}} participants
+{% endblock title %}
+
+{% comment %} TODO: add pagination {% endcomment %}
+{% block content %}
+  <ul>
+    {% for user in participants %}
+      <li class="shadow p-2 bg-white rounded">
+        <a href="{% url 'profiles:profile_detail' user.id %}">
+          {{user}}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock content %}
+
+

@@ -31,7 +31,7 @@
     {% endif %}
 
     <!-- Join or Leave Button -->
-    <div class="mt-6">
+    <div class="mt-6 flex justify-between text-sm">
       {% if user.is_authenticated %}
         {% if is_registered %}
           <form action="{% url 'events:leave_event' event.id %}" method="post" class="inline-block">
@@ -57,6 +57,13 @@
           <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Log in</a> to join this event.
         </p>
       {% endif %}
+      <p 
+        class="px-4 py-2 bg-green-500 text-white rounded-md shadow hover:bg-red-600 transition duration-200 cursor-pointer"
+      >
+        <a href="{% url 'events:event_participants' event.id %}" >
+          Participants
+        </a>
+      </p>
     </div>
   </div>
 {% endblock %}

@@ -44,6 +44,18 @@ class EventDetailView(generic.DetailView):
         return context
 
 
+class EventParticipantsView(generic.DetailView):
+    model = Event
+    template_name = "events/event_participants.html"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, any]:
+        context: dict[str, any] = super().get_context_data(**kwargs)
+        registrations = self.get_object().registrations.all()
+        context["participants"] = [r.user for r in registrations]
+
+        return context
+
+
 def join_event(request: HttpRequest, event_id: int) -> HttpResponse:
     event = get_object_or_404(Event, id=event_id)
     # Check if the event is not full
