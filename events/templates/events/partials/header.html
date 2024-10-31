@@ -6,7 +6,13 @@
   <section class="flex items-center gap-4 text-sm text-gray-700">
     {% if user.is_authenticated %}
       <p class="font-medium">
-        Logged in as <strong class="text-blue-900">{{ user.username }}</strong>
+        <a 
+        class="text-blue-900"
+        href="{% url 'profiles:profile_detail' user.id %}"
+        >
+        {% comment %} TODO: add user profile pic / avatar {% endcomment %}
+        {{ user.username }}
+        </a>
       </p>
 
       <form action="{% url 'logout' %}" method="POST" class="logout-form">

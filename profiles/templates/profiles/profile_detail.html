@@ -1,0 +1,33 @@
+{% extends 'events/layout.html' %}
+
+{% block title %}{{ profile.user.username }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
+  <h1 class="text-2xl font-bold mb-4 text-gray-800">{{ profile.user.username }}'s Profile</h1>
+
+  {% if profile.bio %}
+    <p class="text-gray-700 mb-4"><strong>Bio:</strong> {{ profile.bio }}</p>
+  {% else %}
+    <p class="text-gray-700 mb-4">No bio available.</p>
+  {% endif %}
+
+  {% if profile.location %}
+    <p class="text-gray-700 mb-4"><strong>Location:</strong> {{ profile.location }}</p>
+  {% else %}
+    <p class="text-gray-700 mb-4">Location not specified.</p>
+  {% endif %}
+
+  {% if profile.birth_date %}
+    <p class="text-gray-700 mb-4"><strong>Birth Date:</strong> {{ profile.birth_date|date:"F j, Y" }}</p>
+  {% else %}
+    <p class="text-gray-700 mb-4">Birth date not specified.</p>
+  {% endif %}
+
+  {% if user.is_authenticated and user == profile.user %}
+    <div class="mt-6">
+      <a href="{% url 'profiles:profile_edit' %}" class="text-blue-500 hover:underline">Edit Profile</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
