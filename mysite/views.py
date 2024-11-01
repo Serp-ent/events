@@ -11,16 +11,12 @@ def register(request: HttpRequest) -> HttpResponse:
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(reverse("login"))
-        else:
-            print(form.errors)
+            return redirect("login")
     else:
         form = RegisterForm()
 
     context = {"form": form}
 
-    # TODO: move to mysite register template
-    # TODO: add tailwind
     return render(request, "events/register.html", context)
 
 

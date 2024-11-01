@@ -5,32 +5,60 @@
 {% endblock %}
 
 {% block content %}
-<div class="max-w-md mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
-  <h2 class="text-2xl font-bold text-gray-800 mb-4">Login</h2>
+<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8 mt-10">
+  <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Login</h2>
 
-  <form method="post" action="{% url 'login' %}" class="space-y-4">
+  <form method="post" action="{% url 'login' %}" class="space-y-6">
     {% csrf_token %}
 
-    <div class="space-y-2">
-      <label class="block font-medium text-gray-700" for="username">{{ form.username.label }}</label>
-      {{ form.username }}
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1" for="username">{{ form.username.label }}</label>
+      <input 
+        type="text" 
+        name="username" 
+        id="username" 
+        value="{{ form.username.value|default:'' }}" 
+        class="block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400" 
+        placeholder="{{ form.username.label }}"
+      />
+      {% if form.username.errors %}
+        <ul class="mt-1 text-xs text-red-600">
+          {% for error in form.username.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
     </div>
     
-    <div class="space-y-2">
-      <label class="block font-medium text-gray-700" for="password">{{ form.password.label }}</label>
-      {{ form.password }}
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1" for="password">{{ form.password.label }}</label>
+      <input 
+        type="password" 
+        name="password" 
+        id="password" 
+        class="block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400" 
+        placeholder="{{ form.password.label }}"
+      />
+      {% if form.password.errors %}
+        <ul class="mt-1 text-xs text-red-600">
+          {% for error in form.password.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
     </div>
 
-    <input 
+    <button 
       type="submit" 
-      value="Login" 
-      class="w-full px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition duration-200"
-    />
+      class="w-full px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition duration-200 font-semibold"
+    >
+      Login
+    </button>
     
     <input type="hidden" name="next" value="{{ next }}">
   </form>
 
-  <p class="text-sm text-gray-500 mt-4">
+  <p class="text-sm text-gray-500 mt-4 text-center">
     <a href="{% url 'password_reset' %}" class="text-blue-500 hover:underline">Lost password?</a>
   </p>
 </div>
