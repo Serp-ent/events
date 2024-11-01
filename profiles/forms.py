@@ -5,7 +5,7 @@ from django import forms
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ["bio", "location", "birth_date"]
+        fields = ["bio", "location", "birth_date", 'avatar']
         widgets = {
             "bio": forms.Textarea(
                 attrs={

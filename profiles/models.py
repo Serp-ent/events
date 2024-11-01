@@ -11,6 +11,7 @@ class Profile(models.Model):
     bio = models.TextField(blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
     birth_date = models.DateTimeField(blank=True, null=True)
+    avatar = models.ImageField(upload_to="profile_pictures/", blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.user.username}'s Profile"

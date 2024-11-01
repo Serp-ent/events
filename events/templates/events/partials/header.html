@@ -1,44 +1,58 @@
-<header class="bg-yellow-100 flex justify-between items-center p-4 shadow-md rounded-lg mb-6">
+<header
+  class="bg-yellow-100 flex justify-between items-center p-4 shadow-md rounded-lg mb-6"
+>
   <h1 class="text-3xl font-bold italic text-blue-900">
     <a href="{% url 'events:index' %}" class="hover:underline">Event</a>
   </h1>
 
   <section class="flex items-center gap-4 text-sm text-gray-700">
     {% if user.is_authenticated %}
-      <p class="font-medium">
-        <a 
-        class="text-blue-900"
+    <h2 class="font-medium text-lg">
+      <a
         href="{% url 'profiles:profile_detail' user.id %}"
+        class="text-blue-900 flex items-center gap-1"
+      >
+        <div
+          class="h-8 w-8 rounded-full overflow-hidden border bg-white shrink-0"
         >
-        {% comment %} TODO: add user profile pic / avatar {% endcomment %}
-        {{ user.username }}
-        </a>
-      </p>
+          {% if user.profile.avatar %}
+          <img
+            src="{{ user.profile.avatar.url }}"
+            alt="Profile Picture"
+            class="w-full h-full object-cover"
+          />
+          {% else %}
+          <div class="w-full h-full bg-gray-200"></div>
+          {% endif %}
+        </div>
+        <span>{{ user.username }}</span>
+      </a>
+    </h2>
 
-      <form action="{% url 'logout' %}" method="POST" class="logout-form">
-        {% csrf_token %}
-        <button 
-          type="submit" 
-          class="border border-blue-400 shadow-sm rounded-lg px-3 py-1 bg-blue-500 text-white hover:bg-blue-600 transition-colors"
-        >
-          Logout
-        </button>
-      </form>
+    <form action="{% url 'logout' %}" method="POST" class="logout-form">
+      {% csrf_token %}
+      <button
+        type="submit"
+        class="border border-blue-400 shadow-sm rounded-lg px-3 py-1 bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+      >
+        Logout
+      </button>
+    </form>
     {% else %}
-      <div class="auth-links flex gap-2">
-        <a 
-          href="{% url 'login' %}" 
-          class="login-button border border-blue-400 rounded-lg px-3 py-1 text-blue-600 hover:bg-blue-100 transition-colors"
-        >
-          Login
-        </a>
-        <a 
-          href="{% url 'register' %}" 
-          class="register-button border border-green-400 rounded-lg px-3 py-1 text-green-600 hover:bg-green-100 transition-colors"
-        >
-          Register
-        </a>
-      </div>
+    <div class="auth-links flex gap-2">
+      <a
+        href="{% url 'login' %}"
+        class="login-button border border-blue-400 rounded-lg px-3 py-1 text-blue-600 hover:bg-blue-100 transition-colors"
+      >
+        Login
+      </a>
+      <a
+        href="{% url 'register' %}"
+        class="register-button border border-green-400 rounded-lg px-3 py-1 text-green-600 hover:bg-green-100 transition-colors"
+      >
+        Register
+      </a>
+    </div>
     {% endif %}
   </section>
 </header>

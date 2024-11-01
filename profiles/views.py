@@ -16,7 +16,7 @@ def profile_edit(request: HttpRequest) -> HttpResponse:
     profile = request.user.profile
 
     if request.method == "POST":
-        form = ProfileForm(request.POST, instance=profile)
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             return redirect("profiles:profile_detail", user_id=request.user.id)
