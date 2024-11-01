@@ -6,12 +6,10 @@
 
 {% comment %} TODO: add pagination {% endcomment %}
 {% block content %}
-  <ul>
+  <ul class="space-y-2">
     {% for user in participants %}
-      <li class="shadow p-2 bg-white rounded">
-        <a href="{% url 'profiles:profile_detail' user.id %}">
-          {{user}}
-        </a>
+      <li>
+        {% include 'profiles/partials/userListItem.html' with user=user %}
       </li>
     {% endfor %}
   </ul>
