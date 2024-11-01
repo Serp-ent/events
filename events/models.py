@@ -8,16 +8,20 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Event(models.Model):
-    # TODO: this should be other model
-    CATEGORY_CHOICES = [
-        ("music", "Music"),
-        ("technology", "Technology"),
-        ("education", "Education"),
-    ]
+    # TODO: Categories
+    # CATEGORY_CHOICES = [
+    #     ("music", "Music"),
+    #     ("technology", "Technology"),
+    #     ("education", "Education"),
+    # ]
     name = models.CharField(max_length=255)
     description = models.TextField()
-    startAt = models.DateTimeField()
-    # TODO: endsAt = models.DateTimeField()
+
+    start_date = models.DateField()
+    start_time = models.TimeField()
+    end_date = models.DateField()
+    end_time = models.TimeField()
+
     photo = models.ImageField(upload_to="event_photos/", null=True)
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="events")

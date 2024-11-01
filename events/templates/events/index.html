@@ -21,7 +21,7 @@ Event List
   {% if events_list %}
     <ul class="space-y-4">
       {% for event in events_list %}
-        <li class="p-4 bg-white shadow-md rounded-lg border border-gray-200">
+        <li>
           {% include "events/partials/eventListItem.html" with event=event %}
         </li>
       {% endfor %}
