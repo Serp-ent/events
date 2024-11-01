@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Profile
+from django.contrib.auth.models import User
+from events.models import Event
 from .forms import ProfileForm
 from django.http import HttpResponse, HttpRequest
 
@@ -9,6 +11,20 @@ from django.http import HttpResponse, HttpRequest
 def profile_detail(request: HttpRequest, user_id: int) -> HttpResponse:
     profile: Profile = get_object_or_404(Profile, user_id=user_id)
     return render(request, "profiles/profile_detail.html", {"profile": profile})
+
+
+def events_created(request: HttpRequest, user_id: int) -> HttpResponse:
+    user: User = get_object_or_404(User, id=user_id) 
+    events = Event.objects.filter(author=user)
+
+    return render(request, 'events/events_created.html', {
+        "user": user,
+        "events": events,
+    })
+
+
+def events_joined(request: HttpRequest, user_id: int) -> HttpResponse:
+    return HttpResponse("return events joined")
 
 
 # TODO: login required
