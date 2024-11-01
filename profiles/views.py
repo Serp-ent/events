@@ -14,17 +14,32 @@ def profile_detail(request: HttpRequest, user_id: int) -> HttpResponse:
 
 
 def events_created(request: HttpRequest, user_id: int) -> HttpResponse:
-    user: User = get_object_or_404(User, id=user_id) 
+    user: User = get_object_or_404(User, id=user_id)
     events = Event.objects.filter(author=user)
 
-    return render(request, 'events/events_created.html', {
-        "user": user,
-        "events": events,
-    })
+    # TODO: maybe in template add avatar
+    return render(
+        request,
+        "events/events_created.html",
+        {
+            "user": user,
+            "events": events,
+        },
+    )
 
 
 def events_joined(request: HttpRequest, user_id: int) -> HttpResponse:
-    return HttpResponse("return events joined")
+    user: User = get_object_or_404(User, id=user_id)
+    events = user.registrations.all()
+
+    return render(
+        request,
+        "events/events_joined.html",
+        {
+            "user": user,
+            "events": events,
+        },
+    )
 
 
 # TODO: login required

@@ -1,12 +1,12 @@
 {% extends 'events/layout.html' %}
 
 {% block title %}
-  Events Created by {{ user.username }}
+  Events Joined by {{ user.username }}
 {% endblock title %}
 
 {% block content %}
   <div class="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
-    <h1 class="text-2xl font-bold mb-4 text-gray-800">Events Created by {{ user.username }}</h1>
+    <h1 class="text-2xl font-bold mb-4 text-gray-800">Events Joined by {{ user.username }}</h1>
 
     <div class="flex items-center mb-4">
       <div class="h-12 w-12 rounded-full overflow-hidden border-2 border-gray-300 mr-4">
@@ -18,7 +18,7 @@
           </div>
         {% endif %}
       </div>
-      <span class="text-gray-700">Created Events:</span>
+      <span class="text-gray-700">Joined Events:</span>
     </div>
 
     {% if events %}
@@ -26,7 +26,7 @@
         {% for event in events %}
           <li class="shadow p-4 bg-white rounded hover:shadow-lg transition-shadow duration-200">
             <h2 class="text-lg font-semibold text-gray-800">
-              <a href="{% url 'events:detail' event.id %}" class="hover:underline">{{ event.name }}</a>
+              <a href="{% url 'events:detailed_event' event.id %}" class="hover:underline">{{ event.name }}</a>
             </h2>
             <p class="text-gray-600">{{ event.description }}</p>
             <p class="text-gray-500 text-sm">Starts At: {{ event.startAt|date:"F j, Y, g:i A" }}</p>
@@ -40,7 +40,7 @@
       </ul>
     {% else %}
       <p class="text-gray-700">
-        {{ user.username }} hasn't created any events yet. 
+        {{ user.username }} hasn't joined any events yet. 
         <a href="{% url 'profiles:profile_detail' user.id %}" class="text-blue-500 hover:underline">Visit their profile</a> to see more.
       </p>
     {% endif %}
