@@ -13,6 +13,7 @@
       action="{% url 'events:edit_event' event.id %}" 
       method="post"
       class="space-y-4 text-sm"
+      enctype='multipart/form-data'
     >
       {% csrf_token %}
       

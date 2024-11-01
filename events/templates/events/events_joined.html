@@ -29,7 +29,7 @@
               <a href="{% url 'events:detailed_event' event.id %}" class="hover:underline">{{ event.name }}</a>
             </h2>
             <p class="text-gray-600">{{ event.description }}</p>
-            <p class="text-gray-500 text-sm">Starts At: {{ event.startAt|date:"F j, Y, g:i A" }}</p>
+            <p class="text-gray-500 text-sm">Starts At: {{ event.start_date|date:"F j, Y, g:i A" }}</p>
             {% if event.photo %}
               <div class="mt-2">
                 <img src="{{ event.photo.url }}" alt="{{ event.name }} Photo" class="w-full h-32 object-cover rounded">

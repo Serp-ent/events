@@ -116,7 +116,7 @@ def edit_event(request: HttpRequest, event_id: str):
     e = get_object_or_404(Event, pk=event_id)
 
     if request.method == "POST":
-        form = EventForm(request.POST, instance=e)
+        form = EventForm(request.POST, request.FILES, instance=e)
         if form.is_valid():
             form.save()
             # TODO: this should redirect to that event using reverse
