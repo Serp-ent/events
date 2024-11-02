@@ -124,3 +124,18 @@ class EventsFilterForm(forms.Form):
             }
         ),
     )
+
+    ordering = forms.ChoiceField(
+        required=False,
+        choices=[
+            ("date_closest", "Closest in Date"),
+            ("date_furthest", "Furthest in Date"),
+            ("slots_highest", "Highest Slots Available"),
+            ("slots_least", "Least Slots Available"),
+        ],
+        widget=forms.Select(
+            attrs={
+                "class": "w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500",
+            }
+        ),
+    )

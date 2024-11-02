@@ -21,31 +21,34 @@ class EventListView(generic.ListView):
 
     def get_queryset(self) -> QuerySet[Event]:
         events: QuerySet[Event] = super().get_queryset()
-        user: User = self.request.user
+        user = self.request.user
 
-        form = EventsFilterForm(self.request.GET or None)
+        # Apply filters
+        form = EventsFilterForm(self.request.GET)
         if form.is_valid():
-            if form.cleaned_data["name"]:
+            if form.cleaned_data.get("name"):
                 events = events.filter(name__icontains=form.cleaned_data["name"])
-            if form.cleaned_data["available_only"]:
-                events = events.filter(is_available=True)
-            if form.cleaned_data["expired_only"]:
-                events = events.filter(end_date__lt=timezone.now())
-            if form.cleaned_data["future_only"]:
-                events = events.filter(start_date__gt=timezone.now())
-            if form.cleaned_data["in_progress"]:
-                events = events.filter(
-                    start_date__lte=timezone.now(), end_date__gte=timezone.now()
-                )
-            if form.cleaned_data["author"]:
+            if form.cleaned_data.get("author"):
                 events = events.filter(author=form.cleaned_data["author"])
-            if form.cleaned_data["has_slots"]:
-                events = events.filter(slots__gt=0)
+            if form.cleaned_data.get("has_slots"):
+                events = events.filter(available_slots__gt=0)
 
+            ordering = form.cleaned_data.get("ordering")
+            if ordering == "date_closest":
+                events = events.order_by("date")
+            elif ordering == "date_furthest":
+                events = events.order_by("-date")
+            elif ordering == "slots_highest":
+                events = events.order_by("-available_slots")
+            elif ordering == "slots_least":
+                events = events.order_by("available_slots")
+
+        # Add registration status for each event if user is authenticated
         for event in events:
             event.is_registered = (
                 event.is_user_registered(user) if user.is_authenticated else False
             )
+
         return events
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
