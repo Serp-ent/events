@@ -1,5 +1,8 @@
+from typing import Any
 from .models import Event
 from django import forms
+from django.utils import timezone
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
 
@@ -76,6 +79,30 @@ class EventForm(forms.ModelForm):
             attrs={"class": "w-full px-3 py-2 border border-gray-300 rounded-md"}
         ),
     )
+
+    def clean(self) -> dict[str, Any]:
+        cleaned_data = super().clean()
+        start_date = cleaned_data.get("start_date")
+        start_time = cleaned_data.get("start_time")
+        end_date = cleaned_data.get("end_date")
+        end_time = cleaned_data.get("end_time")
+
+        if start_date and start_time and end_date and end_time:
+            # Combine date and time into a single datetime object
+            start_datetime = timezone.make_aware(
+                timezone.datetime.combine(start_date, start_time)
+            )
+            end_datetime = timezone.make_aware(
+                timezone.datetime.combine(end_date, end_time)
+            )
+
+            # Check if the start datetime is before the end datetime
+            if start_datetime >= end_datetime:
+                raise ValidationError(
+                    "The start date and time must be before the end date and time."
+                )
+
+        return cleaned_data
 
 
 class EventsFilterForm(forms.Form):
