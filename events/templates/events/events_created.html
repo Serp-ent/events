@@ -9,40 +9,12 @@
     {% include "profiles/partials/userListItem.html" with user=user %}
     <h2 class="text-xl font-bold mt-6 mb-4">Events Created</h2>
 
-    <div class="bg-white shadow-lg rounded-lg p-6 mt-4">
+    <div class="bg-white shadow-lg rounded-lg mt-4">
       {% if events %}
         <ul class="space-y-4">
           {% for event in events %}
-            <li class="p-4 bg-white rounded-lg shadow hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105">
-              <h3 class="text-lg font-semibold text-gray-800">
-                <a href="{% url 'events:detailed_event' event.id %}" class="hover:underline">{{ event.name }}</a>
-              </h3>
-              <p class="text-gray-600 mb-2">{{ event.description }}</p>
-              <p class="text-gray-500 text-sm">
-                Starts At: {{ event.start_date|date:"F j, Y" }} {{ event.start_time|time:"g:i A" }}
-              </p>
-              <p class="text-gray-500 text-sm">
-                Ends At: {{ event.end_date|date:"F j, Y" }} {{ event.end_time|time:"g:i A" }}
-              </p>
-              
-              {% if event.photo %}
-                <div class="mt-2">
-                  <img src="{{ event.photo.url }}" alt="{{ event.name }} Photo" class="w-full h-32 object-cover rounded">
-                </div>
-              {% endif %}
-              
-              <div class="mt-2">
-                {% if event.participant_limit > 0 %}
-                  <p class="text-gray-500 text-sm">
-                    Participant Limit: {{ event.participant_limit }}
-                  </p>
-                  <p class="text-gray-500 text-sm">
-                    Slots Available: {{ event.available_slots }}
-                  </p>
-                {% else %}
-                  <p class="text-gray-500 text-sm">No participant limit.</p>
-                {% endif %}
-              </div>
+            <li class="">
+              {% include "events/partials/eventListItem.html" with event=event %}
             </li>
           {% endfor %}
         </ul>

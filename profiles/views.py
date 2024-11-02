@@ -30,7 +30,7 @@ def events_created(request: HttpRequest, user_id: int) -> HttpResponse:
 
 def events_joined(request: HttpRequest, user_id: int) -> HttpResponse:
     user: User = get_object_or_404(User, id=user_id)
-    events = user.registrations.all()
+    events = Event.objects.filter(registrations__user=user).select_related("author")
 
     return render(
         request,
