@@ -6,6 +6,7 @@ from django.urls import reverse
 from .forms import EventForm, EventsFilterForm
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.db.models import F, Q, Count, Case, When, IntegerField, Value
 from django.utils import timezone
 
 from django.views import generic
@@ -23,6 +24,18 @@ class EventListView(generic.ListView):
         events: QuerySet[Event] = super().get_queryset()
         user = self.request.user
 
+        # Annotate with available slots, setting None for unlimited events
+        events = events.annotate(
+            available_slots=Case(
+                When(
+                    participant_limit__gt=0,
+                    then=F("participant_limit") - Count("registrations"),
+                ),
+                When(participant_limit=0, then=None),  # Unlimited events have None
+                output_field=IntegerField(),
+            )
+        )
+
         # Apply filters
         form = EventsFilterForm(self.request.GET)
         if form.is_valid():
@@ -31,13 +44,17 @@ class EventListView(generic.ListView):
             if form.cleaned_data.get("author"):
                 events = events.filter(author=form.cleaned_data["author"])
             if form.cleaned_data.get("has_slots"):
-                events = events.filter(available_slots__gt=0)
+                # Filter events with available slots or no limit
+                events = events.filter(
+                    Q(available_slots__gt=0) | Q(available_slots__isnull=True)
+                )
 
+            # Apply ordering based on form selection
             ordering = form.cleaned_data.get("ordering")
             if ordering == "date_closest":
-                events = events.order_by("date")
+                events = events.order_by("start_date", "start_time")
             elif ordering == "date_furthest":
-                events = events.order_by("-date")
+                events = events.order_by("-start_date", "-start_time")
             elif ordering == "slots_highest":
                 events = events.order_by("-available_slots")
             elif ordering == "slots_least":

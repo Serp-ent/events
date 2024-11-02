@@ -13,26 +13,37 @@
       </div>
       <h2 class="text-lg font-semibold text-gray-800">{{ event.name }}</h2>
     </a>
-    <p class="flex justify-start items-center gap-1">
+
+    <!-- Event Date and Time Information -->
+    <p class="text-sm text-gray-600 mt-2">
+      <strong>Starts:</strong> {{ event.start_date }} at {{ event.start_time }}
+    </p>
+    <p class="text-sm text-gray-600">
+      <strong>Ends:</strong> {{ event.end_date }} at {{ event.end_time }}
+    </p>
+
+    <!-- Organizer Info -->
+    <p class="flex justify-start items-center gap-1 mt-2">
       <span>Organized by</span>
       <a href="{% url 'profiles:profile_detail' event.author.id %}"
          class="text-blue-500 hover:underline grow">{{ event.author.username }}</a>
     </p>
   </div>
+  
   <div class="flex flex-col items-end ml-4 justify-between">
     {% if user.is_authenticated and user == event.author %}
-      <div class="flex flex-col  items-center space-x-2 mb-2">
+      <div class="flex flex-col items-center space-x-2 mb-2">
         <a href="{% url 'events:edit_event' event.id %}"
            class="text-blue-600 hover:underline">Edit</a>
         <a href="{% url 'events:remove_event' event.id %}"
            class="text-red-600 hover:underline">Delete</a>
       </div>
-    {% else %}
-      <div></div>
     {% endif %}
+    
     {% if event.participant_limit != 0 %}
       <p class="text-sm text-gray-600">{{ event.registrations.count }} / {{ event.participant_limit }}</p>
     {% endif %}
+
     {% if user.is_authenticated %}
       {% if event.is_registered %}
         <form action="{% url 'events:leave_event' event.id %}" method="POST">
