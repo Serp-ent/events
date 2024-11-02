@@ -1,0 +1,36 @@
+<form method="get" action="{% url 'events:index' %}" class="space-y-4 text-sm">
+  <div class="flex flex-wrap gap-4">
+    <div class="w-full sm:w-1/2 md:w-1/3">
+      {{ form.name.label_tag }} {{ form.name }}
+    </div>
+    <div class="w-full sm:w-1/2 md:w-1/3">
+      {{ form.author.label_tag }} {{ form.author }}
+    </div>
+  </div>
+
+  <!-- Radio buttons for event status -->
+  <div class="mt-4">
+    <p class="text-sm font-semibold text-gray-700">Event Status</p>
+    <div class="flex flex-col gap-2">
+      {% for radio in form.status %}
+      <label class="flex items-center gap-1 text-xs">
+        {{ radio.tag }} {{ radio.choice_label }}
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Checkbox for available slots -->
+  <div class="flex gap-4 mt-4 flex-col text-sm">
+    <label>{{ form.has_slots }} {{ form.has_slots.label }}</label>
+  </div>
+
+  <div class="flex justify-end">
+    <button
+      type="submit"
+      class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition duration-200"
+    >
+      Filter
+    </button>
+  </div>
+</form>

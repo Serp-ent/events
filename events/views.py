@@ -3,9 +3,10 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.urls import reverse
-from .forms import EventForm
+from .forms import EventForm, EventsFilterForm
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 from django.views import generic
 
@@ -21,11 +22,36 @@ class EventListView(generic.ListView):
     def get_queryset(self) -> QuerySet[Event]:
         events: QuerySet[Event] = super().get_queryset()
         user: User = self.request.user
+
+        form = EventsFilterForm(self.request.GET or None)
+        if form.is_valid():
+            if form.cleaned_data["name"]:
+                events = events.filter(name__icontains=form.cleaned_data["name"])
+            if form.cleaned_data["available_only"]:
+                events = events.filter(is_available=True)
+            if form.cleaned_data["expired_only"]:
+                events = events.filter(end_date__lt=timezone.now())
+            if form.cleaned_data["future_only"]:
+                events = events.filter(start_date__gt=timezone.now())
+            if form.cleaned_data["in_progress"]:
+                events = events.filter(
+                    start_date__lte=timezone.now(), end_date__gte=timezone.now()
+                )
+            if form.cleaned_data["author"]:
+                events = events.filter(author=form.cleaned_data["author"])
+            if form.cleaned_data["has_slots"]:
+                events = events.filter(slots__gt=0)
+
         for event in events:
             event.is_registered = (
                 event.is_user_registered(user) if user.is_authenticated else False
             )
         return events
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["form"] = EventsFilterForm(self.request.GET or None)
+        return context
 
 
 class EventDetailView(generic.DetailView):
