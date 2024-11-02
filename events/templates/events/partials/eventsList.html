@@ -1,0 +1,11 @@
+{% if events_list %}
+<ul class="space-y-4">
+  {% for event in events_list %}
+  <li>{% include "events/partials/eventListItem.html" with event=event %}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<h1 class="text-center text-gray-600 font-medium mt-8">
+  No events are available
+</h1>
+{% endif %}

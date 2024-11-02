@@ -5,12 +5,10 @@
 {% endblock %}
 
 {% block content %}
-  <!-- Filter Form -->
   <div class="mb-8 p-4 bg-gray-100 rounded-md shadow">
     {% include "events/partials/filterEventsForm.html" with form=form  %}
   </div>
 
-  <!-- Create Event Button Wrapper -->
   <div class="mb-4 flex justify-center">
     <a href="{% url 'events:create_event' %}" 
        class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition-colors"
@@ -19,35 +17,8 @@
     </a>
   </div>
 
-  <!-- Events List -->
-  {% if events_list %}
-    <ul class="space-y-4">
-      {% for event in events_list %}
-        <li>
-          {% include "events/partials/eventListItem.html" with event=event %}
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <h1 class="text-center text-gray-600 font-medium mt-8">No events are available</h1>
-  {% endif %}
+  {% include "events/partials/eventsList.html" with events_list=events_list %}
 
-  <!-- Pagination -->
-  <div class="pagination mt-8 flex justify-center items-center space-x-4 text-sm text-blue-600">
-    <span class="step-links flex items-center gap-2">
-      {% if page_obj.has_previous %}
-        <a href="?page=1" class="hover:underline">&laquo; First</a>
-        <a href="?page={{ page_obj.previous_page_number }}" class="hover:underline">Previous</a>
-      {% endif %}
-
-      <span class="current font-semibold text-gray-800 px-3 py-1 rounded-md bg-gray-100">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-      </span>
-
-      {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}" class="hover:underline">Next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}" class="hover:underline">Last &raquo;</a>
-      {% endif %}
-    </span>
-  </div>
+  {% include "events/partials/pagination.html" with page_obj=page_obj %}
+ 
 {% endblock %}
