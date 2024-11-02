@@ -5,44 +5,53 @@
 {% endblock title %}
 
 {% block content %}
-  <div class="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
-    <h1 class="text-2xl font-bold mb-4 text-gray-800">Events Created by {{ user.username }}</h1>
+  <div class="max-w-lg mx-auto">
+    {% include "profiles/partials/userListItem.html" with user=user %}
+    <h2 class="text-xl font-bold mt-6 mb-4">Events Created</h2>
 
-    <div class="flex items-center mb-4">
-      <div class="h-12 w-12 rounded-full overflow-hidden border-2 border-gray-300 mr-4">
-        {% if user.profile.avatar %}
-          <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}'s Avatar" class="w-full h-full object-cover">
-        {% else %}
-          <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-            <span class="text-gray-500">No Image</span>
-          </div>
-        {% endif %}
-      </div>
-      <span class="text-gray-700">Created Events:</span>
-    </div>
-
-    {% if events %}
-      <ul class="space-y-4">
-        {% for event in events %}
-          <li class="shadow p-4 bg-white rounded hover:shadow-lg transition-shadow duration-200">
-            <h2 class="text-lg font-semibold text-gray-800">
-              <a href="{% url 'events:detailed_event' event.id %}" class="hover:underline">{{ event.name }}</a>
-            </h2>
-            <p class="text-gray-600">{{ event.description }}</p>
-            <p class="text-gray-500 text-sm">Starts At: {{ event.startAt|date:"F j, Y, g:i A" }}</p>
-            {% if event.photo %}
+    <div class="bg-white shadow-lg rounded-lg p-6 mt-4">
+      {% if events %}
+        <ul class="space-y-4">
+          {% for event in events %}
+            <li class="p-4 bg-white rounded-lg shadow hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105">
+              <h3 class="text-lg font-semibold text-gray-800">
+                <a href="{% url 'events:detailed_event' event.id %}" class="hover:underline">{{ event.name }}</a>
+              </h3>
+              <p class="text-gray-600 mb-2">{{ event.description }}</p>
+              <p class="text-gray-500 text-sm">
+                Starts At: {{ event.start_date|date:"F j, Y" }} {{ event.start_time|time:"g:i A" }}
+              </p>
+              <p class="text-gray-500 text-sm">
+                Ends At: {{ event.end_date|date:"F j, Y" }} {{ event.end_time|time:"g:i A" }}
+              </p>
+              
+              {% if event.photo %}
+                <div class="mt-2">
+                  <img src="{{ event.photo.url }}" alt="{{ event.name }} Photo" class="w-full h-32 object-cover rounded">
+                </div>
+              {% endif %}
+              
               <div class="mt-2">
-                <img src="{{ event.photo.url }}" alt="{{ event.name }} Photo" class="w-full h-32 object-cover rounded">
+                {% if event.participant_limit > 0 %}
+                  <p class="text-gray-500 text-sm">
+                    Participant Limit: {{ event.participant_limit }}
+                  </p>
+                  <p class="text-gray-500 text-sm">
+                    Slots Available: {{ event.available_slots }}
+                  </p>
+                {% else %}
+                  <p class="text-gray-500 text-sm">No participant limit.</p>
+                {% endif %}
               </div>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="text-gray-700">
-        {{ user.username }} hasn't created any events yet. 
-        <a href="{% url 'profiles:profile_detail' user.id %}" class="text-blue-500 hover:underline">Visit their profile</a> to see more.
-      </p>
-    {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-gray-700">
+          {{ user.username }} hasn't created any events yet. 
+          <a href="{% url 'profiles:profile_detail' user.id %}" class="text-blue-500 hover:underline">Visit their profile</a> to see more.
+        </p>
+      {% endif %}
+    </div>
   </div>
 {% endblock %}

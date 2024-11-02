@@ -5,10 +5,10 @@
 {% endblock title %}
 
 {% block content %}
-  <div class="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
+  <div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
     <h1 class="text-2xl font-bold mb-4 text-gray-800">Events Joined by {{ user.username }}</h1>
 
-    <div class="flex items-center mb-4">
+    <div class="flex items-center mb-6">
       <div class="h-12 w-12 rounded-full overflow-hidden border-2 border-gray-300 mr-4">
         {% if user.profile.avatar %}
           <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}'s Avatar" class="w-full h-full object-cover">
@@ -18,28 +18,31 @@
           </div>
         {% endif %}
       </div>
-      <span class="text-gray-700">Joined Events:</span>
+      <span class="text-gray-700 text-lg font-medium">Joined Events:</span>
     </div>
 
     {% if events %}
       <ul class="space-y-4">
         {% for event in events %}
-          <li class="shadow p-4 bg-white rounded hover:shadow-lg transition-shadow duration-200">
+          <li class="shadow-md p-4 bg-white rounded-lg transition-shadow duration-300 transform hover:shadow-xl hover:scale-105">
             <h2 class="text-lg font-semibold text-gray-800">
               <a href="{% url 'events:detailed_event' event.id %}" class="hover:underline">{{ event.name }}</a>
             </h2>
-            <p class="text-gray-600">{{ event.description }}</p>
-            <p class="text-gray-500 text-sm">Starts At: {{ event.start_date|date:"F j, Y, g:i A" }}</p>
+            <p class="text-gray-600 mb-2">{{ event.description }}</p>
+            <p class="text-gray-500 text-sm">
+              Starts At: {{ event.start_date|date:"F j, Y" }} {{ event.start_time|time:"g:i A" }}<br>
+              Ends At: {{ event.end_date|date:"F j, Y" }} {{ event.end_time|time:"g:i A" }}
+            </p>
             {% if event.photo %}
               <div class="mt-2">
-                <img src="{{ event.photo.url }}" alt="{{ event.name }} Photo" class="w-full h-32 object-cover rounded">
+                <img src="{{ event.photo.url }}" alt="{{ event.name }} Photo" class="w-full h-32 object-cover rounded-lg shadow">
               </div>
             {% endif %}
           </li>
         {% endfor %}
       </ul>
     {% else %}
-      <p class="text-gray-700">
+      <p class="text-gray-700 mt-4">
         {{ user.username }} hasn't joined any events yet. 
         <a href="{% url 'profiles:profile_detail' user.id %}" class="text-blue-500 hover:underline">Visit their profile</a> to see more.
       </p>

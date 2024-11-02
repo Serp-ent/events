@@ -1,19 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
-# TODO: add roles organizer and participant
-# TODO: add login/register and logout functionality
-
-
 # Create your models here.
 class Event(models.Model):
-    # TODO: Categories
-    # CATEGORY_CHOICES = [
-    #     ("music", "Music"),
-    #     ("technology", "Technology"),
-    #     ("education", "Education"),
-    # ]
     name = models.CharField(max_length=255)
     description = models.TextField()
 
@@ -32,6 +21,11 @@ class Event(models.Model):
             return self.registrations.filter(user=user).exists()
 
         return False
+
+    def available_slots(self):
+        if self.participant_limit > 0:
+            return self.participant_limit - self.registrations.count()
+        return None
 
     def __str__(self) -> str:
         return self.name
